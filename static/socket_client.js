@@ -10,3 +10,5 @@ function finish_notice(flag) {
   // flag = document.getElementById("text_inp);
   web_socket.send(flag);
 }
+
+on_load();
