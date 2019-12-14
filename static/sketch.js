@@ -62,12 +62,12 @@ function draw() {
   // console.log(hitpoint);
   if (hitpoint >= hp_width) {
     console.log("finish");
-    finish_notice(1);
+    finish_notice(3);
     noLoop();
   }
   if (hitpoint <= 0) {
     console.log("bad finish");
-    finish_notice(0);
+    finish_notice(2);
     noLoop();
 
   }
@@ -104,18 +104,18 @@ function battle(player, enemy) {
   }
 }
 
-// function mousePressed () { 
-//   if (done) { 
-//     // counter = 0; startTime = millis();
-//     // attack_val = 1;
-//     bias = 10;
-//     evaluation += 30;
-//     console.log(evaluation);
+function mousePressed () { 
+  if (done) { 
+    // counter = 0; startTime = millis();
+    // attack_val = 1;
+    bias = 10;
+    evaluation += 30;
+    console.log(evaluation);
 
-//     // maxTime = int(random(1000, 1976));
-//     done = false;
-//     active = true;
-//     count = 0; 
-//   done=false;
-//   }
-// }
+    // maxTime = int(random(1000, 1976));
+    done = false;
+    active = true;
+    count = 0; 
+  done=false;
+  }
+}
