@@ -46,7 +46,7 @@ function draw() {
   // no stroke for draw
   noStroke();
   // show all text variables and progressbar
-  text("Progress bar blue - size 620", 230, 20);
+  text("Progress bar blue - size 620]]]]", 230, 20);
   fill('red');
   rect(width / 2 - 310, height / 2, 620, 30);
   fill('blue');
@@ -104,18 +104,18 @@ function battle(player, enemy) {
   }
 }
 
-function mousePressed () { 
-  if (done) { 
-    // counter = 0; startTime = millis();
-    // attack_val = 1;
-    bias = 10;
-    evaluation += 30;
-    console.log(evaluation);
+// function mousePressed () { 
+//   if (done) { 
+//     // counter = 0; startTime = millis();
+//     // attack_val = 1;
+//     bias = 10;
+//     evaluation += 30;
+//     console.log(evaluation);
 
-    // maxTime = int(random(1000, 1976));
-    done = false;
-    active = true;
-    count = 0; 
-  done=false;
-  }
-}
+//     // maxTime = int(random(1000, 1976));
+//     done = false;
+//     active = true;
+//     count = 0; 
+//   done=false;
+//   }
+// }

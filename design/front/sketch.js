@@ -8,6 +8,13 @@ var counter;
 var maxTime; 
 // boolean for the end progressbar 
 var done; 
+let font;
+
+let points;
+let bounds;
+let fontSize = 250;
+let prevSecs;
+
 
 var hitpoint;
 var damage;
@@ -16,6 +23,8 @@ var active;
 var count;
 // settings for this example
 function setup() { 
+	bounds = font.textBounds("00:00:00", 0, 0, fontSize);
+
 // set title of window
 //frame.setTitle("Example progressbar | free-tutorials.org");
 // window size and background color
@@ -45,8 +54,10 @@ function sleep(waitMsec) {
 }
 // draw all text and progressbar
 function draw() { 
+  fill('red');
+  rect(width/2-310,height/2, 620, 30 );
   // set same background color
-  background(255); 
+  // background(255); 
  
   // check end of progressbar fill
   if (counter-startTime < maxTime) {

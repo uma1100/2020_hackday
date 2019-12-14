@@ -1,6 +1,5 @@
-#container {
-    margin: 20px;
-    width: 400px;
-    height: 8px;
-    position: relative;
-  }
+#defaultCanvas0{
+  position: fixed; /*canvasを固定*/
+  top: 0; /*canvasを上に固定*/
+  left: 0;
+}

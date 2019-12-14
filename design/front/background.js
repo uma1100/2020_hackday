@@ -1,59 +1,68 @@
-let xmotion = 0.8;
-let ymotion = 2.2;
+var pg;
 
-void draw_func() {
-	noStroke();
-	
-	loadPixels();
-	for (int x = 1; x < width; x += 4) {
-		let norm_x = x / width;
-		let norm_xa = abs(0.5 - norm_x) * 2;
+function preload() {
+	font = loadFont('https://openprocessing-usercontent.s3.amazonaws.com/files/user203303/visual808490/h24d7452822eaf68f42a5f583d50117c8/FOUNGM__.TTF');
+}
+let points;
+let bounds;
+let fontSize = 250;
+let prevSecs;
+let start;
+// let running = false;
+let ellapsed;
 
-		for (int y = 1; y < height; y += 4) {
-			color p = pixels[y * width + x];
-			
-			let norm_y = y / height;
-			let norm_ya = abs(0.5 - norm_y) * 2;
-			
-			if (brightness(p) > (random(0, 1) > 0.125 ? 64 : 48) && brightness(p) < 128) {
-				color p2 = pixels[(y+ceil(random(-1, 1))) * width + (x+ceil(random(-1, 1)))];
-				
-				fill(0, 0, 255, 14);
-				
-				rect(width - x + random(8), height - y + random(8), 4, 4);
-				rect(width - x + random(12), height - y + random(12), 4, 4);
-			} else if (brightness(p) >= 224) {
-				let r = (random(0, 1) > 0.125 ? 64 : 24);
-				let r2 = (random(0, 1) > 0.125 ? 64 : 8);
-				
-				fill(0, 0, 0, 18);
-				ellipse(x + sin(norm_x * PI * 2 + ymotion) * random(4, 24), y + cos(norm_y * PI * 2 + xmotion) * random(4, 24), r, r2);
-				ellipse(y + cos(norm_y * PI * 2 + xmotion) * random(24, 24), x + sin(norm_x * PI * 2 + ymotion) * random(4, 24), r, r2);
-				
-				noStroke();
-			}
-		}
+function setup() {
+	createCanvas(windowWidth, windowHeight);
+  bounds = font.textBounds("00:00:00", 0, 0, fontSize);
+  ellapsed = 0;
+  start = 90;
+}
+
+function draw() {
+  ellapsed = millis() - start;
+  console.log(15-millis()/1000);
+  
+	background(0);
+  var secs = nf(5-ellapsed/1000,1, 2);
+  if(secs <= 0){
+    secs = -1;
+  }
+	if (secs >= 0) {
+		prevSecs = secs;
+		var mins = nf(minute(), 2, 0);
+		var hours = nf(hour(), 2, 0);
+		points = font.textToPoints(secs, 150, -150, fontSize, {
+			sampleFactor: 0.1,
+			simplifyThreshold: 0
+		});
+	}else{
+    points = font.textToPoints('EAT BREAD', 150, -100, fontSize-150, {
+			sampleFactor: 0.1,
+			simplifyThreshold: 0.00
+		});
+    
+    text("win", 230, 20); 
+  }
+	strokeWeight(abs(sin(frameCount*0.1))*30);
+	stroke(255);
+	noFill();
+	translate((width - bounds.w) / 2, ((height - bounds.h) / 2 ) + bounds.h);
+	var amp = map(mouseX*0.01, 0, width, 0, 5);
+	var freq = map(mouseY*0.01, 0, height, 0, 3);
+	beginShape(POINTS);
+	for (let i = 0; i < points.length; i++) {
+		let p = points[i];
+		var x = p.x + cos(radians(p.y + frameCount*freq)) * amp;
+		var y = p.y + tan(radians(p.x + frameCount*freq)) * amp;
+		vertex(x+noise(50+frameCount*0.1)*100, y+noise(frameCount*0.1)*100);
 	}
-		noFill();
-	textSize(118);
-	fill(0, 0, 255, 48);
-	textAlign(CENTER);
-	text("FACT", width / 2, height / 2);
-	
-	xmotion += 0.5;
-	ymotion += 0.008;
-}
+  endShape();
+  noStroke();
+  fill(110,110,255);
 
-void setup() {
-  size(800, 800);
+  text("Progress bar blue - size 620", 230, 20); 
+  rect(230,30, 620, 30 );
 
-  background(0);
-	
-	colorMode(HSB, 360, 256, 256);
-	
-	//smooth();
-}
 
-void draw() {
-  draw_func();
+  
 }
