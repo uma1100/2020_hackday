@@ -13,13 +13,13 @@ R_ACCEL_OFFSET_X = 350
 R_ACCEL_OFFSET_Y = 0
 R_ACCEL_OFFSET_Z = -4081
 
-SCORE_BORDER_1 = 3000 
-SCORE_BORDER_2 = 13000
-SCORE_BORDER_3 = 20000
+SCORE_BORDER_1 = 300000
+SCORE_BORDER_2 = 800000
+SCORE_BORDER_3 = 1500000
 
 fileName = './R_data.txt'
 
-MY_PRODUCT_ID = L_PRODUCT_ID
+MY_PRODUCT_ID = R_PRODUCT_ID
 
 def write_output_report(joycon_device, packet_number, command, subcommand, argument):
     joycon_device.write(command
@@ -111,6 +111,15 @@ def joycon_connect(joycon_device):
     # 60HzでJoy-Conの各データを取得するための設定
     write_output_report(joycon_device, 1, b'\x01', b'\x03', b'\x30')
 
+def calculate_score(joycon_device):
+    base_time = time.time()
+    score = 0
+    while abs(time.time() - base_time) < 1.0:
+        input_report = joycon_device.read(49)
+        accel_x = get_accel_x(input_report)
+        score += abs(accel_x)
+    return score
+
 if __name__ == '__main__':
     joycon_device = hid.device()
     joycon_connect(joycon_device)
@@ -118,17 +127,19 @@ if __name__ == '__main__':
     try:
         while True:
             file = open(fileName, 'w')
-            input_report = joycon_device.read(49)
-            accel_x = get_accel_x(input_report)
-            print("Accel : {:8d}".format(accel_x))
-            abs_accel_x = abs(accel_x)
-            if SCORE_BORDER_1 > abs_accel_x :
+            score = calculate_score(joycon_device)
+            print(score)
+            if SCORE_BORDER_1 > score :
+                print('0')
                 file.write('0')
-            elif SCORE_BORDER_1 < abs_accel_x < SCORE_BORDER_2 :
+            elif SCORE_BORDER_1 < score < SCORE_BORDER_2 :
+                print('1')
                 file.write('1')
-            elif SCORE_BORDER_2 < abs_accel_x < SCORE_BORDER_3 :
+            elif SCORE_BORDER_2 < score < SCORE_BORDER_3 :
+                print('2')
                 file.write('2')
             else :
+                print('3')
                 file.write('3')
             file.close()
             time.sleep(1.0)      
