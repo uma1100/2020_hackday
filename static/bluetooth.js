@@ -7,7 +7,7 @@ var ACCELEROMETERDATA_CHARACTERISTIC_UUID =
   "e95dca4b-251d-470a-a062-fa1922dfa9a8";
 
 function connect() {
-  console.log(connect開始);
+  console.log('connect開始');
   navigator.bluetooth
     .requestDevice({
       filters: [
