@@ -31,7 +31,7 @@ function setup() {
   done = false;
   active = false;
   hp_width = 620;
-  hitpoint = hp_width / 2;
+  hitpoint = 0;
   damage = 0;
   count = 0;
   attack_val = 0;
@@ -61,7 +61,7 @@ function draw() {
   fill('red');
   rect(width / 2 - 310, height / 2, 620, 30);
   fill('blue');
-  rect(width / 2 - 310, height / 2, hitpoint, 30);
+  // rect(width / 2 - 310, height / 2, hitpoint, 30);
   if (damage > 0) {
     hitpoint += attack_val;
     count++;
@@ -72,8 +72,16 @@ function draw() {
   if (count > Math.abs(damage)) {
     attack_val = 0;
   }
+  hitpoint += damage;
   rect(width / 2 - 310, height / 2, hitpoint, 30);
+  // damage = 0;
   // console.log(hitpoint);
+  if (hitpoint >= hp_width) {
+    console.log("goal");
+    on_button_send();
+    noLoop();
+  }
+  sleep(300);
 
 
   // rect(width/2-310,height/2,map(counter-startTime,0,maxTime,0,310), 30 );
@@ -101,5 +109,21 @@ function test(player, enemy) {
     done = false;
     active = true;
     count = 0;
+  }
+}
+
+function mousePressed () { 
+  if (done) { 
+    counter = 0; startTime = millis();
+    attack_val = 1;
+    bias = 10;
+    damage += 30;
+    console.log(damage);
+    
+    maxTime = int(random(1000, 1976));
+    done = false;
+    active = true;
+    count = 0; 
+  done=false;
   }
 }
