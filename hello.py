@@ -15,4 +15,4 @@ def blue():
     return render_template('blue.html', title='hello2', value=value)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8888, threaded=True)  
+    app.run(debug=True, port=8888, threaded=True)
