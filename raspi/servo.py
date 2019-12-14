@@ -1,23 +1,32 @@
 import sys
 import pigpio
 
-SERVO_PIN = 18
-
+FINISH_SERVO = 18
+TEMP_SERVO = 19
 args = sys.argv
 
-f = 0
-if ( len( args ) > 1 ):
-    if ( args[1].isdecimal() ):
-        p_width = int( args[1] )
-        if ( p_width >= 500 and p_width <= 2500 ):
-            f = 1
+pi = pigpio.pi()
 
-if ( f == 1 ):
-    print ("Servo set", p_width )
-    pi = pigpio.pi()
-    pi.set_servo_pulsewidth(SERVO_PIN, p_width)
+def setTempServo(value):
+    print("temp")
+    print(value)
+    print(type(value))
+    if value == 1:
+        print("1")
+        pi.set_servo_pulsewidth(TEMP_SERVO,2000)
+    elif value == 0:
+        print("0")
+        pi.set_servo_pulsewidth(TEMP_SERVO,500)
 
-else:
-    print ("USAGE: python3 servo.py PULSE_WIDTH")
-    print ("  PULSE_WHDHT : Pulse range is 500-2500.")
+def setFinishServo(value):
+    print("finish")
+    print(value)
+    print(type(value))
+    if value == 1:
+        print("1")
+        pi.set_servo_pulsewidth(FINISH_SERVO,2000)
+    elif value==0:
+        print("0")
+        pi.set_servo_pulsewidth(FINISH_SERVO,500)
+
 
