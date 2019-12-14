@@ -116,7 +116,7 @@ if __name__ == '__main__':
             print ("joy-con L")
             # 加速度センサー
             print("Accel : {:8d}".format(get_accel_x(input_report)))  
-            time.sleep(1.0)      
+            # time.sleep(1.0)      
     except KeyboardInterrupt:
         joycon_device.close()
         sys.exit()

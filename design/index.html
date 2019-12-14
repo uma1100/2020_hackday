@@ -1,15 +1,31 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!--スタイルシートで自機と障害物の見た目を規定-->
+	<style type="text/css">
+		.player
+		{
+			width            : 40px;
+			height           : 40px;
+			background-color : #00ADFF;
+			position         : fixed;
+		}
+
+		.block
+		{
+			width            : 40px;
+			height           : 40px;
+			background-color : #FFF231;
+			position         : fixed;
+		}
+	</style>
 </head>
-
 <body>
-  <input type="text" id="test_val">
-  <button id="test">test</button>
-  <script src="sketch.js"></script>
-  <script src="main.js"></script>
+	<!--自機の表示-->
+	<div class="player"></div>
+  <!--ゲーム内各要素の動きのベースとなるライブラリ読み込み-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!--ゲームプログラムの読み込み表示-->
+	<script src="main.js"></script>
 </body>
-
 </html>
