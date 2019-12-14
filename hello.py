@@ -12,14 +12,14 @@ def hello():
 @app.route('/get_joycon_L_data')
 def get_L():
     f = open('./joyCon/L_data.txt')
-    L_data = int(f.readline()) 
+    L_data = int(f.readline())
     return jsonify({'L_data':L_data})
 
-@app.route('/bluetoothtest')
+@app.route('/websocket')
 def blue():
     value = "who"
     #return name
-    return render_template('blue.html', title='hello2', value=value)
+    return render_template('socket.html', title='hello2', value=value)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8888, threaded=True)
