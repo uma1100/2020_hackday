@@ -1,28 +1,29 @@
 
 var enemy = 0;
 var player = 0;
-var id = setInterval(function () {
-    console.log('get');
+var flag = false;
+var Right = setInterval(function () {
     $.ajax({
         type: 'GET',
-        url: './get_joycon_data'
-    }).done(function (res) {
-        console.log(res);
-        enemy = res.player1;
+        url: './get_joycon_R_data'
+    }).done(function (data) {
+        enemy = data.player1;
+        flag = true;
     }).fail(function() {
         console.log('正しい結果を得られませんでした。');
       });
 }, 1000);
 
-var id = setInterval(function () {
-    console.log("local");
+var Left = setInterval(function () {
     $.ajax({
         type: 'GET',
         url: './get_joycon_L_data'
-    }).done(function (res) {
-        console.log(res);
-        player = res.L_data;
-        test(enemy,player);
+    }).done(function (data) {
+        console.log(data);
+        player = data.L_data;
+        if(flag){
+            battle(enemy,player);
+        }
 
     }).fail(function() {
         console.log('正しい結果を得られませんでした。');
