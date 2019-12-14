@@ -149,7 +149,7 @@ if __name__ == '__main__':
             print(accel_array)
             score = calculate_score(accel_array)
             print(score)
-            #requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+str(score))
+            requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+str(score))
     except KeyboardInterrupt:
         joycon_device.close()
         sys.exit()
