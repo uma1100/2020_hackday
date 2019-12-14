@@ -7,7 +7,6 @@ function on_load() {
   console.log("接続ok");
 }
 
-function on_button_send() {
-  var text_input = document.getElementById("text_input");
-  web_socket.send(text_input.value);
+function finish_notice(flag) {
+  web_socket.send(flag);
 }

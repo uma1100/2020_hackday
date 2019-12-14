@@ -16,12 +16,12 @@ def get_L():
     L_data = int(f.readline()) 
     return jsonify({'L_data':L_data})
 
-@app.route('/get_joycon_data')
+@app.route('/get_joycon_R_data')
 def get_data():
     joycon_data = requests.get('https://script.google.com/macros/s/AKfycbzCa4Xp_WHXIziduPKaa8kOZ_ZR9qc-XxWHMY0bcuLGYDXArojT/exec')
     joycon_data = joycon_data.json()
 
-    return jsonify({"player0":joycon_data['player0'],"player1":joycon_data['player1']})
+    return jsonify({"R_data":joycon_data['player1']})
 
 @app.route('/websocket')
 def blue():

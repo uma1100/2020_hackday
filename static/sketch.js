@@ -1,18 +1,14 @@
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
+
 // example progressbar 
 // default variables for progressbar
 // start the time for progressbar
-var startTime;
-// counter progressbar 
-var counter;
-// maximum time progressbar
-var maxTime;
 // boolean for the end progressbar 
 var done;
 
 var hitpoint;
-var damage;
+var evaluation;
 var hp_width;
-var active;
 var count;
 // settings for this example
 function setup() {
@@ -25,14 +21,10 @@ function setup() {
   //size(640,130);
   background(25);
   // set variables of progressbar
-  counter = 0;
-  startTime = millis();
-  maxTime = int(random(1000, 1976));
   done = false;
-  active = false;
   hp_width = 620;
   hitpoint = 0;
-  damage = 0;
+  evaluation = 0;
   count = 0;
   attack_val = 0;
   //end settings
@@ -49,9 +41,7 @@ function draw() {
   background(255);
 
   // check end of progressbar fill
-  if (counter - startTime < maxTime) {
-    counter = millis();
-  } else { done = true; }
+  done = true;
   // create the color for fill progressbar
   fill(110, 110, 255);
   // no stroke for draw
@@ -62,23 +52,27 @@ function draw() {
   rect(width / 2 - 310, height / 2, 620, 30);
   fill('blue');
   // rect(width / 2 - 310, height / 2, hitpoint, 30);
-  if (damage > 0) {
-    hitpoint += attack_val;
+  if (evaluation > 0) {
+    hitpoint += evaluation;
     count++;
   } else {
-    hitpoint -= attack_val;
+    hitpoint -= evaluation;
     count++;
   }
-  if (count > Math.abs(damage)) {
-    attack_val = 0;
+  if (count > Math.abs(evaluation)) {
+    evaluation = 0;
   }
-  hitpoint += damage;
   rect(width / 2 - 310, height / 2, hitpoint, 30);
-  // damage = 0;
+  // evaluation = 0;
   // console.log(hitpoint);
   if (hitpoint >= hp_width) {
-    console.log("goal");
-    on_button_send();
+    console.log("finish");
+    finish_notice(1);
+    noLoop();
+  }
+  if (hitpoint <= 0) {
+    console.log("bad finish");
+    finish_notice(0);
     noLoop();
   }
   sleep(300);
@@ -92,19 +86,18 @@ function draw() {
 
 }
 // reload the draw of progress bar 
-function test(player, enemy) {
+function battle(enemy, player) {
   if (done) {
-    counter = 0; startTime = millis();
     attack_val = 1;
     bias = 10;
-    if (player < enemy) {
-      // 邪魔者のほうが運動量が多いとき
-      damage = bias*enemy;
+    if (enemy < player) {
+      // playerのほうが運動量が多いとき
+      evaluation = bias*enemy;
     } else {
-      // 自分のほうが運動量が多いとき
-      damage = -1 * player * bias;
+      // enemyのほうが運動量が多いとき
+      evaluation = -1 * enemy * bias;
     }
-    console.log(damage);
+    console.log(evaluation);
     maxTime = int(random(1000, 1976));
     done = false;
     active = true;
@@ -117,8 +110,8 @@ function mousePressed () {
     counter = 0; startTime = millis();
     attack_val = 1;
     bias = 10;
-    damage += 30;
-    console.log(damage);
+    evaluation += 30;
+    console.log(evaluation);
     
     maxTime = int(random(1000, 1976));
     done = false;
