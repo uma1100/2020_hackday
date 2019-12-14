@@ -8,6 +8,7 @@ var hitpoint;
 var evaluation;
 var hp_width;
 var count;
+var judge;
 function preload() {
   font = loadFont(
     "https://openprocessing-usercontent.s3.amazonaws.com/files/user203303/visual808490/h24d7452822eaf68f42a5f583d50117c8/FOUNGM__.TTF"
@@ -43,6 +44,7 @@ function setup() {
   evaluation = 0;
   count = 0;
   attack_val = 0;
+  judge = true;
   //end settings
 }
 function sleep(waitMsec) {
@@ -64,7 +66,7 @@ function draw() {
 
   if (start) {
     ellapsed = millis();
-    var secs = nf(10 - ellapsed / 1000, 1, 2);
+    var secs = nf(30 - ellapsed / 1000, 1, 2);
     if (secs <= 0) {
       secs = -1;
     }
@@ -89,6 +91,8 @@ function draw() {
       } else if (hitpoint <= 0) {
         hitpoint = 0;
       }
+      console.log(hitpoint);
+      
     } else {
       evaluation = 0;
       if (hitpoint >= hp_width / 2) {
@@ -98,7 +102,10 @@ function draw() {
           sampleFactor: 0.1,
           simplifyThreshold: 0.0
         });
-        // finish_notice(3);
+        if (judge) {
+          finish_notice(1);          
+          judge = false;
+        }
         // noLoop();
       } else {
         image(Img, 1000, 300, 300, 300);
@@ -107,7 +114,10 @@ function draw() {
           sampleFactor: 0.1,
           simplifyThreshold: 0.0
         });
-        // finish_notice(2);
+        if (judge) {
+          finish_notice(0);          
+          judge = false;
+        }
         // noLoop();
       }
     }
@@ -149,10 +159,10 @@ function draw() {
   fill("blue");
   textSize(100);
   textFont(font);
-  text(str(enemy_point), 110, 90);
+  text(str(player_point), 110, 90);
   text("PLAYER", -20, 200);
   fill("red");
-  text(str(player_point), 900, 90);
+  text(str(enemy_point), 900, 90);
   text("ENEMY", 750, 200);
   textSize(15);
 
@@ -164,6 +174,7 @@ function draw() {
   if (count > Math.abs(evaluation)) {
     evaluation = 0;
   }
+  fill("blue");
 
   rect(230, 30, hitpoint, 30);
   // evaluation = 0;
