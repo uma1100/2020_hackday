@@ -11,4 +11,3 @@ function finish_notice(flag) {
   web_socket.send(flag);
 }
 
-on_load();

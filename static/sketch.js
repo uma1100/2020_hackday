@@ -1,4 +1,3 @@
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
 // example progressbar 
 // default variables for progressbar
@@ -23,7 +22,7 @@ function setup() {
   // set variables of progressbar
   done = false;
   hp_width = 620;
-  hitpoint = 0;
+  hitpoint = 1;
   evaluation = 0;
   count = 0;
   attack_val = 0;
@@ -52,16 +51,12 @@ function draw() {
   rect(width / 2 - 310, height / 2, 620, 30);
   fill('blue');
   // rect(width / 2 - 310, height / 2, hitpoint, 30);
-  if (evaluation > 0) {
-    hitpoint += evaluation;
-    count++;
-  } else {
-    hitpoint -= evaluation;
-    count++;
-  }
+  hitpoint += evaluation;
+  count++;
   if (count > Math.abs(evaluation)) {
     evaluation = 0;
   }
+
   rect(width / 2 - 310, height / 2, hitpoint, 30);
   // evaluation = 0;
   // console.log(hitpoint);
@@ -74,6 +69,7 @@ function draw() {
     console.log("bad finish");
     finish_notice(0);
     noLoop();
+
   }
   sleep(300);
 
@@ -86,18 +82,21 @@ function draw() {
 
 }
 // reload the draw of progress bar 
-function battle(enemy, player) {
+function battle(player, enemy) {
   if (done) {
     attack_val = 1;
-    bias = 10;
+    bias = 5;
     if (enemy < player) {
       // playerのほうが運動量が多いとき
-      evaluation = bias*enemy;
+      evaluation = bias * player;
+    } else if (enemy == player) {
+      evaluation = 0;
     } else {
       // enemyのほうが運動量が多いとき
       evaluation = -1 * enemy * bias;
     }
-    console.log(evaluation);
+    console.log("自分" + player + "相手" + enemy + "評価" + evaluation);
+
     maxTime = int(random(1000, 1976));
     done = false;
     active = true;
@@ -105,18 +104,18 @@ function battle(enemy, player) {
   }
 }
 
-function mousePressed () { 
-  if (done) { 
-    counter = 0; startTime = millis();
-    attack_val = 1;
-    bias = 10;
-    evaluation += 30;
-    console.log(evaluation);
-    
-    maxTime = int(random(1000, 1976));
-    done = false;
-    active = true;
-    count = 0; 
-  done=false;
-  }
-}
+// function mousePressed () { 
+//   if (done) { 
+//     // counter = 0; startTime = millis();
+//     // attack_val = 1;
+//     bias = 10;
+//     evaluation += 30;
+//     console.log(evaluation);
+
+//     // maxTime = int(random(1000, 1976));
+//     done = false;
+//     active = true;
+//     count = 0; 
+//   done=false;
+//   }
+// }
