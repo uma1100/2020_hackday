@@ -17,7 +17,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   //size(640,130);
-  background(25);
+  background(255);
   // set variables of progressbar
   done = false;
   hp_width = 620;
@@ -36,17 +36,19 @@ function sleep(waitMsec) {
 // draw all text and progressbar
 var circle_array = []; // 円の色、位置、半径を記録する用の配列
 function draw() {
-  // set same background color
-  background(255);
-
   done = true;
   noStroke();
-
   // 円の描写 ここから
-  for (let [cloor, x, y, r] of circle_array) {
-    fill(cloor);
-    ellipse(x, y, r, r);
-  }
+  // 円の登録 ここから
+  fill("red");
+  var random_x = Math.random() * width;
+  var random_y = Math.random() * height;
+  ellipse(random_x, random_y, 100, 100);
+  fill("blue");
+  random_x = Math.random() * width;
+  random_y = Math.random() * height;
+  ellipse(random_x, random_y, 100, 100);
+
   text("Progress bar blue - size 620", 230, 20);
   //ここまで
 
