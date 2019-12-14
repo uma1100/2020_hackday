@@ -133,16 +133,16 @@ if __name__ == '__main__':
             print(score)
             if SCORE_BORDER_1 > score :
                 print('0')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'0')
+                requests.get('https://script.google.com/macros/s/AKfycbzW8sHIrKatmbST8SIhws6x_h-Zy3nrThWzluPhGf9fWkBuJ4w/exec?player='+player_id+'&text='+'0')
             elif SCORE_BORDER_1 < score < SCORE_BORDER_2 :
                 print('1')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'1')
+                requests.get('https://script.google.com/macros/s/AKfycbzW8sHIrKatmbST8SIhws6x_h-Zy3nrThWzluPhGf9fWkBuJ4w/exec?player='+player_id+'&text='+'1')
             elif SCORE_BORDER_2 < score < SCORE_BORDER_3 :
                 print('2')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'2')
+                requests.get('https://script.google.com/macros/s/AKfycbzW8sHIrKatmbST8SIhws6x_h-Zy3nrThWzluPhGf9fWkBuJ4w/exec?player='+player_id+'&text='+'2')
             else :
                 print('3')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'3')
+                requests.get('https://script.google.com/macros/s/AKfycbzW8sHIrKatmbST8SIhws6x_h-Zy3nrThWzluPhGf9fWkBuJ4w/exec?player='+player_id+'&text='+'3')
             file.close()
     except KeyboardInterrupt:
         joycon_device.close()

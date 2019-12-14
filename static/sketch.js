@@ -73,7 +73,7 @@ function draw() {
     attack_val = 0;
   }
   rect(width / 2 - 310, height / 2, hitpoint, 30);
-  console.log(hitpoint);
+  // console.log(hitpoint);
 
 
   // rect(width/2-310,height/2,map(counter-startTime,0,maxTime,0,310), 30 );
@@ -88,13 +88,15 @@ function test(player, enemy) {
   if (done) {
     counter = 0; startTime = millis();
     attack_val = 1;
+    bias = 10;
     if (player < enemy) {
       // 邪魔者のほうが運動量が多いとき
-      damage = enemy;
+      damage = bias*enemy;
     } else {
       // 自分のほうが運動量が多いとき
-      damage = -1 * player
+      damage = -1 * player * bias;
     }
+    console.log(damage);
     maxTime = int(random(1000, 1976));
     done = false;
     active = true;

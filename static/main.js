@@ -8,7 +8,7 @@ var id = setInterval(function () {
         console.log(res);
 
     })
-}, 500);
+}, 1000);
 // });
 
 // $('#test').click(function () {
