@@ -13,6 +13,12 @@ R_ACCEL_OFFSET_X = 350
 R_ACCEL_OFFSET_Y = 0
 R_ACCEL_OFFSET_Z = -4081
 
+SCORE_BORDER_1 = 3000 
+SCORE_BORDER_2 = 13000
+SCORE_BORDER_3 = 20000
+
+fileName = './R_data.txt'
+
 MY_PRODUCT_ID = L_PRODUCT_ID
 
 def write_output_report(joycon_device, packet_number, command, subcommand, argument):
@@ -106,16 +112,25 @@ def joycon_connect(joycon_device):
     write_output_report(joycon_device, 1, b'\x01', b'\x03', b'\x30')
 
 if __name__ == '__main__':
-
     joycon_device = hid.device()
     joycon_connect(joycon_device)
-    print(joycon_device)
+    print ('joy-con L')
     try:
         while True:
+            file = open(fileName, 'w')
             input_report = joycon_device.read(49)
-            print ("joy-con L")
-            # 加速度センサー
-            print("Accel : {:8d}".format(get_accel_x(input_report)))  
+            accel_x = get_accel_x(input_report)
+            print("Accel : {:8d}".format(accel_x))
+            abs_accel_x = abs(accel_x)
+            if SCORE_BORDER_1 > abs_accel_x :
+                file.write('0')
+            elif SCORE_BORDER_1 < abs_accel_x < SCORE_BORDER_2 :
+                file.write('1')
+            elif SCORE_BORDER_2 < abs_accel_x < SCORE_BORDER_3 :
+                file.write('2')
+            else :
+                file.write('3')
+            file.close()
             time.sleep(1.0)      
     except KeyboardInterrupt:
         joycon_device.close()
