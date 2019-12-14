@@ -1,6 +1,7 @@
 import hid
 import time
 import sys
+import requests
 
 VENDOR_ID = 0x057E
 L_PRODUCT_ID = 0x2006
@@ -13,9 +14,9 @@ R_ACCEL_OFFSET_X = 350
 R_ACCEL_OFFSET_Y = 0
 R_ACCEL_OFFSET_Z = -4081
 
-SCORE_BORDER_1 = 3000 
-SCORE_BORDER_2 = 13000
-SCORE_BORDER_3 = 20000
+SCORE_BORDER_1 = 300000
+SCORE_BORDER_2 = 800000
+SCORE_BORDER_3 = 1400000
 
 fileName = './R_data.txt'
 
@@ -111,27 +112,38 @@ def joycon_connect(joycon_device):
     # 60HzでJoy-Conの各データを取得するための設定
     write_output_report(joycon_device, 1, b'\x01', b'\x03', b'\x30')
 
+def calculate_score(joycon_device):
+    base_time = time.time()
+    score = 0
+    while abs(time.time() - base_time) < 1.0:
+        input_report = joycon_device.read(49)
+        accel_x = get_accel_x(input_report)
+        score += abs(accel_x)
+    return score
+
 if __name__ == '__main__':
     joycon_device = hid.device()
     joycon_connect(joycon_device)
     print ('joy-con L')
+    player_id = '0' if is_left() else '1'
     try:
         while True:
             file = open(fileName, 'w')
-            input_report = joycon_device.read(49)
-            accel_x = get_accel_x(input_report)
-            print("Accel : {:8d}".format(accel_x))
-            abs_accel_x = abs(accel_x)
-            if SCORE_BORDER_1 > abs_accel_x :
-                file.write('0')
-            elif SCORE_BORDER_1 < abs_accel_x < SCORE_BORDER_2 :
-                file.write('1')
-            elif SCORE_BORDER_2 < abs_accel_x < SCORE_BORDER_3 :
-                file.write('2')
+            score = calculate_score(joycon_device)
+            print(score)
+            if SCORE_BORDER_1 > score :
+                print('0')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'0')
+            elif SCORE_BORDER_1 < score < SCORE_BORDER_2 :
+                print('1')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'1')
+            elif SCORE_BORDER_2 < score < SCORE_BORDER_3 :
+                print('2')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'2')
             else :
-                file.write('3')
+                print('3')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'3')
             file.close()
-            time.sleep(1.0)      
     except KeyboardInterrupt:
         joycon_device.close()
         sys.exit()
