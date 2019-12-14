@@ -21,11 +21,11 @@ def get_data():
 
     return jsonify({player0:joycon0,player1:joycon1})
 
-@app.route('/bluetoothtest')
+@app.route('/websocket')
 def blue():
     value = "who"
     #return name
-    return render_template('blue.html', title='hello2', value=value)
+    return render_template('socket.html', title='hello2', value=value)
 
 if __name__ == "__main__":
     joycon_data = requests.get('https://script.google.com/macros/s/AKfycbzCa4Xp_WHXIziduPKaa8kOZ_ZR9qc-XxWHMY0bcuLGYDXArojT/exec')

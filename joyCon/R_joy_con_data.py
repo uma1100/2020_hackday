@@ -112,7 +112,7 @@ def joycon_connect(joycon_device):
     # 60HzでJoy-Conの各データを取得するための設定
     write_output_report(joycon_device, 1, b'\x01', b'\x03', b'\x30')
 
-def calculate_score(joycon_device):
+def integrate_accel(joycon_device):
     base_time = time.time()
     score = 0
     while abs(time.time() - base_time) < 1.0:
@@ -121,29 +121,30 @@ def calculate_score(joycon_device):
         score += abs(accel_x)
     return score
 
+def calculate_score(accel):
+    score = 0
+    if SCORE_BORDER_1 > accel :
+        score += 0
+    elif SCORE_BORDER_1 < accel < SCORE_BORDER_2 :
+        score += 1
+    elif SCORE_BORDER_2 < accel < SCORE_BORDER_3 :
+        score += 2
+    else :
+        score += 3
+    return score
+
 if __name__ == '__main__':
     joycon_device = hid.device()
     joycon_connect(joycon_device)
-    print ('joy-con L')
+    print ('joy-con R')
     player_id = '0' if is_left() else '1'
     try:
         while True:
-            file = open(fileName, 'w')
-            score = calculate_score(joycon_device)
+            sum_accel = integrate_accel(joycon_device)
+            print(sum_accel)
+            score = calculate_score(sum_accel)
             print(score)
-            if SCORE_BORDER_1 > score :
-                print('0')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'0')
-            elif SCORE_BORDER_1 < score < SCORE_BORDER_2 :
-                print('1')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'1')
-            elif SCORE_BORDER_2 < score < SCORE_BORDER_3 :
-                print('2')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'2')
-            else :
-                print('3')
-                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'3')
-            file.close()
+            requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+str(score))
     except KeyboardInterrupt:
         joycon_device.close()
         sys.exit()
