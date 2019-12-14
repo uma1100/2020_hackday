@@ -1,6 +1,7 @@
 import hid
 import time
 import sys
+import requests
 
 VENDOR_ID = 0x057E
 L_PRODUCT_ID = 0x2006
@@ -15,7 +16,7 @@ R_ACCEL_OFFSET_Z = -4081
 
 SCORE_BORDER_1 = 300000
 SCORE_BORDER_2 = 800000
-SCORE_BORDER_3 = 1500000
+SCORE_BORDER_3 = 1400000
 
 fileName = './R_data.txt'
 
@@ -124,6 +125,7 @@ if __name__ == '__main__':
     joycon_device = hid.device()
     joycon_connect(joycon_device)
     print ('joy-con L')
+    player_id = '0' if is_left() else '1'
     try:
         while True:
             file = open(fileName, 'w')
@@ -131,18 +133,17 @@ if __name__ == '__main__':
             print(score)
             if SCORE_BORDER_1 > score :
                 print('0')
-                file.write('0')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'0')
             elif SCORE_BORDER_1 < score < SCORE_BORDER_2 :
                 print('1')
-                file.write('1')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'1')
             elif SCORE_BORDER_2 < score < SCORE_BORDER_3 :
                 print('2')
-                file.write('2')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'2')
             else :
                 print('3')
-                file.write('3')
+                requests.get('https://script.google.com/macros/s/AKfycbxX4kPc4r8L2wTcyQtUZJrwa_saA6kzwQ9vf9E3XxRW_e7PxOpB/exec?player='+player_id+'&text='+'3')
             file.close()
-            time.sleep(1.0)      
     except KeyboardInterrupt:
         joycon_device.close()
         sys.exit()
