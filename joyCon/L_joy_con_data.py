@@ -18,7 +18,7 @@ SCORE_BORDER_1 = 300000
 SCORE_BORDER_2 = 800000
 SCORE_BORDER_3 = 1400000
 
-fileName = './R_data.txt'
+fileName = './L_data.txt'
 
 MY_PRODUCT_ID = L_PRODUCT_ID
 
@@ -141,11 +141,14 @@ if __name__ == '__main__':
     player_id = '0' if is_left() else '1'
     try:
         while True:
+            file = open(fileName, 'w')
             sum_accel = integrate_accel(joycon_device)
             print(sum_accel)
             score = calculate_score(sum_accel)
             print(score)
-            requests.get('https://script.google.com/macros/s/AKfycbzW8sHIrKatmbST8SIhws6x_h-Zy3nrThWzluPhGf9fWkBuJ4w/exec?player='+player_id+'&text='+str(score))
+            file.write(str(score))
+            file.close()
+            #requests.get('https://script.google.com/macros/s/AKfycbzW8sHIrKatmbST8SIhws6x_h-Zy3nrThWzluPhGf9fWkBuJ4w/exec?player='+player_id+'&text='+str(score))
     except KeyboardInterrupt:
         joycon_device.close()
         sys.exit()
