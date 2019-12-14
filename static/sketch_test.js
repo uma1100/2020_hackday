@@ -17,6 +17,8 @@ let bounds;
 let fontSize = 250;
 let prevSecs;
 let start;
+let player_point;
+let enemy_point;
 // let running = false;
 let ellapsed;
 // settings for this example
@@ -57,6 +59,12 @@ function draw() {
   background(255);
 
   // console.log(15-millis()/1000);
+  textSize(200);
+  textFont(font);
+  text(str(enemy_point), 100, 100);
+  console.log(enemy_point);
+  textSize(15);
+  
 
   // background(0);
   noStroke();
@@ -185,6 +193,8 @@ function battle(player, enemy) {
       evaluation = -1 * enemy * bias;
     }
     console.log("自分" + player + "相手" + enemy + "評価" + evaluation);
+    enemy_point = enemy;
+    player_point = player;
 
     maxTime = int(random(1000, 1976));
     done = false;
