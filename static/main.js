@@ -2,13 +2,13 @@
 var id = setInterval(function () {
     $.ajax({
         type: 'GET',
-        url: './get_joycon_L_data'
+        url: './get_joycon_data'
     }).done(function (res) {
-        test(res.L_data);
-        console.log(res.L_data);
+        test(res.player0,res.player1);
+        console.log(res);
 
     })
-}, 1000);
+}, 500);
 // });
 
 // $('#test').click(function () {
