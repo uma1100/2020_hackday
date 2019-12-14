@@ -15,8 +15,8 @@ R_ACCEL_OFFSET_Y = 0
 R_ACCEL_OFFSET_Z = -4081
 
 SCORE_BORDER_1 = 300000
-SCORE_BORDER_2 = 800000
-SCORE_BORDER_3 = 1400000
+SCORE_BORDER_2 = 500000
+SCORE_BORDER_3 = 800000
 
 fileName = './L_data.txt'
 
@@ -115,24 +115,29 @@ def joycon_connect(joycon_device):
 
 def integrate_accel(joycon_device):
     base_time = time.time()
-    score = 0
+    accel = [0, 0, 0]
     while abs(time.time() - base_time) < 1.0:
         input_report = joycon_device.read(49)
         accel_x = get_accel_x(input_report)
-        score += abs(accel_x)
-    return score
+        accel_y = get_accel_y(input_report)
+        accel_z = get_accel_z(input_report)
+        accel[0] += abs(accel_x)
+        accel[1] += abs(accel_y)
+        accel[2] += abs(accel_y)
+    return accel
 
-def calculate_score(accel):
+def calculate_score(accel_array):
     score = 0
-    if SCORE_BORDER_1 > accel :
-        score += 0
-    elif SCORE_BORDER_1 < accel < SCORE_BORDER_2 :
-        score += 1
-    elif SCORE_BORDER_2 < accel < SCORE_BORDER_3 :
-        score += 2
-    else :
-        score += 3
-    return score
+    for accel in accel_array :
+        if SCORE_BORDER_1 > accel :
+            score += 0
+        elif SCORE_BORDER_1 < accel < SCORE_BORDER_2 :
+            score += 1
+        elif SCORE_BORDER_2 < accel < SCORE_BORDER_3 :
+            score += 2
+        else :
+            score += 3
+    return score + 1
 
 if __name__ == '__main__':
     joycon_device = hid.device()
@@ -141,9 +146,9 @@ if __name__ == '__main__':
     player_id = '0' if is_left() else '1'
     try:
         while True:
-            sum_accel = integrate_accel(joycon_device)
-            print(sum_accel)
-            score = calculate_score(sum_accel)
+            accel_array = integrate_accel(joycon_device)
+            print(accel_array)
+            score = calculate_score(accel_array)
             print(score)
             file = open(fileName, 'w')
             file.write(str(score))
