@@ -177,13 +177,6 @@ function draw() {
   fill("blue");
 
   rect(230, 30, hitpoint, 30);
-  // evaluation = 0;
-  // console.log(hitpoint);
-
-  // rect(width/2-310,height/2,map(counter-startTime,0,maxTime,0,310), 30 );
-  // text("counter- startTime "+int(counter- startTime)+" ",10,80);
-  // text("maxTime "+ int(maxTime) +  " ", 10,100);
-  // text("map converted counter-startTime"+ int ( map(counter-startTime,0,maxTime,0,200)), 10,120);
   noFill();
 }
 // reload the draw of progress bar
